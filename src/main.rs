@@ -11,11 +11,6 @@ use std::{
     process::{exit, Command},
 };
 
-#[cfg(target_os = "windows")]
-const EXEC_NAME: &str = "flutter.bat";
-#[cfg(not(target_os = "windows"))]
-const EXEC_NAME: &str = "flutter";
-
 #[cfg(not(target_os = "windows"))]
 use std::os::unix::fs::symlink;
 #[cfg(target_os = "windows")]
@@ -28,6 +23,12 @@ fn symlink(from: &PathBuf, to: &PathBuf) -> io::Result<()> {
     }
 }
 
+#[cfg(target_os = "windows")]
+const EXEC_NAME: &str = "flutter.bat";
+#[cfg(not(target_os = "windows"))]
+const EXEC_NAME: &str = "flutter";
+
+const SPINNER_VARIANT: Spinners = Spinners::Dots;
 const FLUTTER_URL: &str = "https://github.com/flutter/flutter.git";
 
 fn check_dir(dir: &Path) -> Result<(), &Path> {
@@ -73,7 +74,7 @@ fn main() {
         };
     }
 
-    let sp = Spinner::new(Spinners::Bounce, "Cloning Flutter Repo...".into());
+    let sp = Spinner::new(SPINNER_VARIANT, "Cloning Flutter Repo...".into());
     match Repository::clone(FLUTTER_URL, &flutter_dir) {
         Ok(_) => {
             sp.stop();
@@ -123,9 +124,7 @@ fn main() {
         }
     }
 
-    // TODO: Run First Time Setup
-
-    let sp = Spinner::new(Spinners::Bounce, "Running First Time Setup".into());
+    let sp = Spinner::new(SPINNER_VARIANT, "Running First Time Setup".into());
     match Command::new(bin_dir.join(EXEC_NAME).as_os_str()).output() {
         Ok(_) => sp.stop_with_message("Ran first time setup!".into()),
         Err(_) => sp.stop_with_message("Ran into an error running first time setup".into()),
