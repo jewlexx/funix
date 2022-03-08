@@ -3,7 +3,14 @@ name = "funix"
 version = "1.0.0"
 edition = "2015"
 authors = ["jewlexx"]
+readme = "README.md"
+license = "MIT"
+keywords = ["cli", "tool", "flutter"]
+repository = "https://github.com/jewlexx/funix"
+categories = ["command-line-utilities", "development-tools"]
+description = "A command to install the Flutter sdk"
 rust-version = "1.56.0"
+documentation = "https://docs.rs/funix"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -11,3 +18,6 @@ rust-version = "1.56.0"
 git2 = { version = "0.14.1", features = ["https"], default-features = false }
 directories = { version = "4.0.1" }
 spinners = { version = "3.0.1" }
+
+[badges]
+maintenance = { status = "actively-maintained" }

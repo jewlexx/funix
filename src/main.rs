@@ -114,6 +114,8 @@ fn main() {
         }
     }
 
+    // TODO: Run First Time Setup
+
     println!("Finished Setting up Flutter sdk :)");
     println!("Now all you have to do is add the following directory to your path: ");
     println!("{}", bin_dir.display());
