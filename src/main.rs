@@ -84,6 +84,7 @@ fn main() {
             soft_panic!("Failed to clone Flutter repo! Check if the directory already exists");
         }
     };
+    println!();
 
     let flutter_bin = {
         let mut flutter_bin = flutter_dir.clone();
@@ -126,8 +127,8 @@ fn main() {
 
     let sp = Spinner::new(SPINNER_VARIANT, "Running First Time Setup".into());
     match Command::new(bin_dir.join(EXEC_NAME).as_os_str()).output() {
-        Ok(_) => sp.stop_with_message("Ran first time setup!".into()),
-        Err(_) => sp.stop_with_message("Ran into an error running first time setup".into()),
+        Ok(_) => sp.stop_with_message("Ran first time setup!\n".into()),
+        Err(_) => sp.stop_with_message("Ran into an error running first time setup\n".into()),
     };
 
     println!("Finished Setting up Flutter sdk :)");
