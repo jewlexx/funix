@@ -1,0 +1,11 @@
+[package]
+name = "funix"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+git2 = { version = "0.14.1", features = ["https"], default-features = false }
+directories = { version = "4.0.1" }
+spinners = { version = "3.0.1" }
