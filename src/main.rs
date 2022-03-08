@@ -81,7 +81,7 @@ fn main() {
         }
         Err(_) => {
             sp.stop();
-            soft_panic!("Failed to clone Flutter repo!");
+            soft_panic!("Failed to clone Flutter repo! Check if the directory already exists");
         }
     };
 
