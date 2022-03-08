@@ -1,7 +1,19 @@
 use directories::UserDirs;
 use git2::Repository;
 use spinners::{Spinner, Spinners};
-use std::{fs, os::unix::fs::symlink, path::Path, process::exit};
+use std::{fs, path::Path, process::exit};
+
+#[cfg(not(target_os = "windows"))]
+use std::os::unix::fs::symlink;
+#[cfg(target_os = "windows")]
+use std::{io, path::PathBuf};
+#[cfg(target_os = "windows")]
+fn symlink(from: &PathBuf, to: &PathBuf) -> io::Result<()> {
+    match fs::copy(from, to) {
+        Ok(_) => Ok(()),
+        Err(e) => Err(e),
+    }
+}
 
 const FLUTTER_URL: &str = "https://github.com/flutter/flutter.git";
 
@@ -65,6 +77,9 @@ fn main() {
         flutter_bin
     };
 
+    #[cfg(target_os = "windows")]
+    println!("Please note that symlinking is not supported on Windows, so the files have simply been copied\nThis means that if you wish to pull a new commit from the git repository, you must copy the bin files again");
+
     for bin_file in match fs::read_dir(&flutter_bin) {
         Ok(v) => v,
         Err(_) => {
@@ -86,7 +101,7 @@ fn main() {
                 }
             };
 
-            if symlink(&path, bin_dir.join(file_name)).is_err() {
+            if symlink(&path, &bin_dir.join(file_name)).is_err() {
                 println!(
                     "WARN: Failed to symlink {}",
                     file_name.to_str().unwrap_or("NONE")
