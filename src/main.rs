@@ -1,3 +1,7 @@
+extern crate directories;
+extern crate git2;
+extern crate spinners;
+
 use directories::UserDirs;
 use git2::Repository;
 use spinners::{Spinner, Spinners};
