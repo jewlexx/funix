@@ -5,7 +5,16 @@ extern crate spinners;
 use directories::UserDirs;
 use git2::Repository;
 use spinners::{Spinner, Spinners};
-use std::{fs, path::Path, process::exit};
+use std::{
+    fs,
+    path::Path,
+    process::{exit, Command},
+};
+
+#[cfg(target_os = "windows")]
+const EXEC_NAME: &str = "flutter.bat";
+#[cfg(not(target_os = "windows"))]
+const EXEC_NAME: &str = "flutter";
 
 #[cfg(not(target_os = "windows"))]
 use std::os::unix::fs::symlink;
@@ -115,6 +124,12 @@ fn main() {
     }
 
     // TODO: Run First Time Setup
+
+    let sp = Spinner::new(Spinners::Bounce, "Running First Time Setup".into());
+    match Command::new(bin_dir.join(EXEC_NAME).as_os_str()).output() {
+        Ok(_) => sp.stop_with_message("Ran first time setup!".into()),
+        Err(_) => sp.stop_with_message("Ran into an error running first time setup".into()),
+    };
 
     println!("Finished Setting up Flutter sdk :)");
     println!("Now all you have to do is add the following directory to your path: ");
