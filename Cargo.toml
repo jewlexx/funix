@@ -16,8 +16,5 @@ documentation = "https://docs.rs/funix"
 
 [dependencies]
 git2 = { version = "0.14.1", features = ["https"], default-features = false }
-directories = { version = "4.0.1" }
-spinners = { version = "3.0.1" }
-
-[badges]
-maintenance = { status = "actively-maintained" }
+directories = "4.0.1"
+spinners = "3.1.0"

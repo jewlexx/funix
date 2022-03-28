@@ -75,16 +75,14 @@ fn main() {
     }
 
     let sp = Spinner::new(SPINNER_VARIANT, "Cloning Flutter Repo...".into());
-    match Repository::clone(FLUTTER_URL, &flutter_dir) {
-        Ok(_) => {
-            sp.stop();
-        }
-        Err(_) => {
-            sp.stop();
-            soft_panic!("Failed to clone Flutter repo! Check if the directory already exists");
-        }
-    };
+    let repo = Repository::clone(FLUTTER_URL, &flutter_dir);
+    sp.stop_with_symbol("\x1b[32m🗸\x1b[0m");
     println!();
+
+    if repo.is_err() {
+        soft_panic!("Failed to clone Flutter repo! Check if the directory already exists");
+    }
+    
 
     let flutter_bin = {
         let mut flutter_bin = flutter_dir.clone();
